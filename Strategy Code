@@ -1,0 +1,30 @@
+//@version=5
+strategy("Order Block Strategy", overlay=true)
+
+// Define Order Block Detection (Example Logic)
+var float highestHigh = na
+var float lowestLow = na
+if bar_index > 10
+    highestHigh := ta.highest(high, 10)
+    lowestLow := ta.lowest(low, 10)
+
+// Define Bullish Order Block
+bullishOB = close[2] < open[2] and close[1] > open[1] and high[1] > high[2] and low[1] < low[2]
+plotshape(bullishOB, location=location.belowbar, color=color.green, style=shape.triangleup, size=size.small)
+
+// Define Bearish Order Block
+bearishOB = close[2] > open[2] and close[1] < open[1] and high[1] > high[2] and low[1] < low[2]
+plotshape(bearishOB, location=location.abovebar, color=color.red, style=shape.triangledown, size=size.small)
+
+// Entry Conditions
+longCondition = bullishOB and close > highestHigh
+if longCondition
+    strategy.entry("Long", strategy.long)
+
+shortCondition = bearishOB and close < lowestLow
+if shortCondition
+    strategy.entry("Short", strategy.short)
+
+// Exit Conditions
+strategy.exit("Exit Long", from_entry="Long", stop=lowestLow, limit=highestHigh)
+strategy.exit("Exit Short", from_entry="Short", stop=highestHigh, limit=lowestLow)
