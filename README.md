@@ -1,1 +1,1 @@
-# Automated-Trading-Algorithm-in-Pine-Script
+Developed an automated trading algorithm in Pine Script with 70% profitability and low drawdown, leveraging technical indicators and risk management. Optimized through backtesting and integrated with TradingView alerts for real-time execution, enhancing portfolio performance and scalability.
